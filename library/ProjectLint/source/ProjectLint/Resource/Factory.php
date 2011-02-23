@@ -10,7 +10,7 @@ class Factory
     const MEGABYTE = 'MB';
     const GIGABYTE = 'GB';
 
-    public function create(\SplFileInfo $fileInfo, $projectPath)
+    public static function create(\SplFileInfo $fileInfo, $projectPath)
     {
         $type = $fileInfo->getType();
         switch ($type) {
