@@ -1,12 +1,12 @@
 #!/usr/bin/env php
 <?php
-if (2 > $_SERVER['argc'] || !is_dir($_SERVER['argv'][1])) {
+/*if (2 > $_SERVER['argc'] || !is_dir($_SERVER['argv'][1])) {
     echo "ProjectLint v0.1 by Jean-Marc Fontaine\n\n";
     echo "Usage:\n";
     echo "\tprojectlint path\n\n";
     exit(1);
 }
-$projectPath = realpath($_SERVER['argv'][1]);
+$projectPath = realpath($_SERVER['argv'][1]);*/
 
 // Set up autoloader
 require_once __DIR__ . '/library/Symfony/source/Symfony/Component/ClassLoader/UniversalClassLoader.php';
@@ -20,8 +20,13 @@ $loader->registerNamespaces(
 );
 $loader->register();
 
+$projectLint = new \ProjectLint\Console\ProjectLint();
+$projectLint->run();
+
+
+
 // Load rules
-use ProjectLint\Rule\RulesManager;
+/*use ProjectLint\Rule\RulesManager;
 $rulesManager = new RulesManager($projectPath);
 $rulesManager->loadFromFile(__DIR__ . '/rules.yaml');
 
@@ -48,4 +53,4 @@ foreach ($errors as $error) {
     );
 }
 
-exit(0);
+exit(0);*/
