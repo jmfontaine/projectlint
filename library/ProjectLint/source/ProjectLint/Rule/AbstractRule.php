@@ -3,7 +3,7 @@ namespace ProjectLint\Rule;
 
 use ProjectLint\Resource\AbstractResource;
 
-abstract class Rule
+abstract class AbstractRule
 {
     protected $_data;
     protected $_rulesManager;

@@ -36,7 +36,7 @@ class Link extends File
                 break;
 
             default:
-                throw new ProjectLint_Exception(
+                throw new Exception(
                     "Invalid unit provided : $unit"
                 );
         }

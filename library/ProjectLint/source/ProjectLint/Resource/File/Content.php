@@ -1,5 +1,9 @@
 <?php
-class ProjectLint_Resource_File_Content
+namespace ProjectLint\Resource\File;
+
+use ProjectLint\Exception;
+
+class Content
 {
     protected $_rawContent;
 
@@ -15,7 +19,7 @@ class ProjectLint_Resource_File_Content
         $result = preg_match($pattern, $this->_rawContent);
 
         if (false === $result) {
-            throw new ProjectLint_Exception(
+            throw new Exception(
             	"Could not use pattern '$pattern'"
             );
         }

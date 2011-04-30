@@ -22,14 +22,14 @@ class File extends AbstractResource
         $filename = $this->getFilename();
 
         if (!$this->isReadable()) {
-            throw new ProjectLint_Exception(
+            throw new Exception(
                 "File '$filename' is unreadable"
             );
         }
 
         $content = file_get_contents($filename);
         if (false === $content) {
-            throw new ProjectLint_Exception(
+            throw new Exception(
                 "Could not get '$filename' content"
             );
         }

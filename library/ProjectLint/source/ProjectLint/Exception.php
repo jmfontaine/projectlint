@@ -1,4 +1,6 @@
 <?php
-class ProjectLint_Exception extends Exception
+namespace ProjectLint;
+
+class Exception extends \Exception
 {
 }

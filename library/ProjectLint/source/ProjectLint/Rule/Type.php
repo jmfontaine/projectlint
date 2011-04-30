@@ -1,10 +1,11 @@
 <?php
 namespace ProjectLint\Rule;
 
-use ProjectLint_Exception;
+use ProjectLint\Exception;
 use ProjectLint\Resource\AbstractResource;
+use ProjectLint\Rule\AbstractRule;
 
-class Type extends Rule
+class Type extends AbstractRule
 {
     public function check(AbstractResource $resource)
     {

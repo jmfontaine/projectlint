@@ -1,10 +1,11 @@
 <?php
 namespace ProjectLint\Rule;
 
-use ProjectLint\Resource\Factory;
+use ProjectLint\Exception;
 use ProjectLint\Resource\AbstractResource;
+use ProjectLint\Resource\Factory;
 
-class Size extends Rule
+class Size extends AbstractRule
 {
     protected function _checkFile(AbstractResource $resource)
     {
@@ -63,7 +64,7 @@ class Size extends Rule
                 break;
 
             default:
-                throw new ProjectLint_Exception(
+                throw new Exception(
                     "Invalid unit provided : $unit"
                 );
         }
@@ -94,7 +95,7 @@ class Size extends Rule
             '>=',
         );
         if (!in_array($operator, $validOperators)) {
-            throw new ProjectLint_Exception(
+            throw new Exception(
                 "Invalid size comparison operator '$operator'"
             );
         }
@@ -116,7 +117,7 @@ class Size extends Rule
             'GB',
         );
         if (!in_array($unit, $validUnits)) {
-            throw new ProjectLint_Exception(
+            throw new Exception(
                 "Invalid unit '$unit'"
             );
         }

@@ -1,14 +1,16 @@
 <?php
 namespace ProjectLint\Console\Command;
 
+use ProjectLint\Resource\Factory;
+use ProjectLint\Rule\RulesManager;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console;
-use ProjectLint\Rule\RulesManager;
 use Symfony\Component\Finder\Finder;
-use ProjectLint\Resource\Factory;
 
-class Check extends Console\Command\Command
+class Check extends Command
 {
     protected function configure()
     {
@@ -38,8 +40,7 @@ class Check extends Console\Command\Command
              );
     }
 
-    protected function execute(Console\Input\InputInterface $input,
-        Console\Output\OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $projectPath = $input->getOption('project-path');
 
