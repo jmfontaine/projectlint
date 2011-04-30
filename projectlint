@@ -1,13 +1,5 @@
 #!/usr/bin/env php
 <?php
-/*if (2 > $_SERVER['argc'] || !is_dir($_SERVER['argv'][1])) {
-    echo "ProjectLint v0.1 by Jean-Marc Fontaine\n\n";
-    echo "Usage:\n";
-    echo "\tprojectlint path\n\n";
-    exit(1);
-}
-$projectPath = realpath($_SERVER['argv'][1]);*/
-
 // Set up autoloader
 require_once __DIR__ . '/library/Symfony/source/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 use Symfony\Component\ClassLoader\UniversalClassLoader;
@@ -20,37 +12,5 @@ $loader->registerNamespaces(
 );
 $loader->register();
 
-$projectLint = new \ProjectLint\Console\ProjectLint();
-$projectLint->run();
-
-
-
-// Load rules
-/*use ProjectLint\Rule\RulesManager;
-$rulesManager = new RulesManager($projectPath);
-$rulesManager->loadFromFile(__DIR__ . '/rules.yaml');
-
-// Iterate over project
-use Symfony\Component\Finder\Finder;
-$finder = new Finder();
-$finder->in($projectPath)->sortByName();
-
-use ProjectLint\Resource\Factory;
-foreach ($finder as $item) {
-    $resource = Factory::create($item, $projectPath);
-    $rulesManager->checkRules($resource);
-}
-
-// Display errors
-$errors = $rulesManager->getErrors();
-foreach ($errors as $error) {
-    echo sprintf(
-        "%s: %s (Expected: %s, actual: %s)\n",
-        $error['resource']->getRelativePath(),
-        $error['message'],
-        $error['expectedValue'],
-        $error['actualValue']
-    );
-}
-
-exit(0);*/
+$application = new \ProjectLint\Console\ProjectLint();
+$application->run();
