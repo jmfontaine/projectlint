@@ -3,7 +3,7 @@
 /*
  * This file is part of the Symfony package.
  *
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
+ * (c) Fabien Potencier <fabien@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -31,13 +31,14 @@ namespace Symfony\Component\ClassLoader;
  *
  *     // register classes with namespaces
  *     $loader->registerNamespaces(array(
- *       'Symfony\Component' => __DIR__.'/component',
- *       'Symfony' => __DIR__.'/framework',
+ *         'Symfony\Component' => __DIR__.'/component',
+ *         'Symfony'           => __DIR__.'/framework',
+ *         'Sensio'            => array(__DIR__.'/src', __DIR__.'/vendor'),
  *     ));
  *
  *     // register a library using the PEAR naming convention
  *     $loader->registerPrefixes(array(
- *       'Swift_' => __DIR__.'/Swift',
+ *         'Swift_' => __DIR__.'/Swift',
  *     ));
  *
  *     // activate the autoloader
@@ -49,14 +50,16 @@ namespace Symfony\Component\ClassLoader;
  * directory, and it will then fallback to the framework/ directory if not
  * found before giving up.
  *
- * @author Fabien Potencier <fabien.potencier@symfony-project.org>
+ * @author Fabien Potencier <fabien@symfony.com>
+ *
+ * @api
  */
 class UniversalClassLoader
 {
-    protected $namespaces = array();
-    protected $prefixes = array();
-    protected $namespaceFallback;
-    protected $prefixFallback;
+    private $namespaces = array();
+    private $prefixes = array();
+    private $namespaceFallback = array();
+    private $prefixFallback = array();
 
     /**
      * Gets the configured namespaces.
@@ -79,9 +82,9 @@ class UniversalClassLoader
     }
 
     /**
-     * Gets the directory to use as a fallback for namespaces.
+     * Gets the directory(ies) to use as a fallback for namespaces.
      *
-     * @return string A directory path
+     * @return array An array of directories
      */
     public function getNamespaceFallback()
     {
@@ -89,9 +92,9 @@ class UniversalClassLoader
     }
 
     /**
-     * Gets the directory to use as a fallback for class prefixes.
+     * Gets the directory(ies) to use as a fallback for class prefixes.
      *
-     * @return string A directory path
+     * @return array An array of directories
      */
     public function getPrefixFallback()
     {
@@ -101,69 +104,87 @@ class UniversalClassLoader
     /**
      * Registers the directory to use as a fallback for namespaces.
      *
-     * @return string $dir A directory path
+     * @param string|array $dirs A directory path or an array of directories
+     *
+     * @api
      */
-    public function registerNamespaceFallback($dir)
+    public function registerNamespaceFallback($dirs)
     {
-        $this->namespaceFallback = $dir;
+        $this->namespaceFallback = (array) $dirs;
     }
 
     /**
      * Registers the directory to use as a fallback for class prefixes.
      *
-     * @param string $dir A directory path
+     * @param string|array $dirs A directory path or an array of directories
+     *
+     * @api
      */
-    public function registerPrefixFallback($dir)
+    public function registerPrefixFallback($dirs)
     {
-        $this->prefixFallback = $dir;
+        $this->prefixFallback = (array) $dirs;
     }
 
     /**
      * Registers an array of namespaces
      *
      * @param array $namespaces An array of namespaces (namespaces as keys and locations as values)
+     *
+     * @api
      */
     public function registerNamespaces(array $namespaces)
     {
-        $this->namespaces = array_merge($this->namespaces, $namespaces);
+        foreach ($namespaces as $namespace => $locations) {
+            $this->namespaces[$namespace] = (array) $locations;
+        }
     }
 
     /**
      * Registers a namespace.
      *
-     * @param string $namespace The namespace
-     * @param string $path      The location of the namespace
+     * @param string       $namespace The namespace
+     * @param array|string $paths     The location(s) of the namespace
+     *
+     * @api
      */
-    public function registerNamespace($namespace, $path)
+    public function registerNamespace($namespace, $paths)
     {
-        $this->namespaces[$namespace] = $path;
+        $this->namespaces[$namespace] = (array) $paths;
     }
 
     /**
      * Registers an array of classes using the PEAR naming convention.
      *
      * @param array $classes An array of classes (prefixes as keys and locations as values)
+     *
+     * @api
      */
     public function registerPrefixes(array $classes)
     {
-        $this->prefixes = array_merge($this->prefixes, $classes);
+        foreach ($classes as $prefix => $locations) {
+            $this->prefixes[$prefix] = (array) $locations;
+        }
     }
 
     /**
      * Registers a set of classes using the PEAR naming convention.
      *
-     * @param string $prefix The classes prefix
-     * @param string $path   The location of the classes
+     * @param string       $prefix  The classes prefix
+     * @param array|string $paths   The location(s) of the classes
+     *
+     * @api
      */
-    public function registerPrefix($prefix, $path)
+    public function registerPrefix($prefix, $paths)
     {
-        $this->prefixes[$prefix] = $path;
+        $this->prefixes[$prefix] = (array) $paths;
     }
 
     /**
      * Registers this instance as an autoloader.
      *
      * @param Boolean $prepend Whether to prepend the autoloader or not
+     *
+     * @api
      */
     public function register($prepend = false)
     {
@@ -177,44 +198,62 @@ class UniversalClassLoader
      */
     public function loadClass($class)
     {
-        $class = ltrim($class, '\\');
+        if ($file = $this->findFile($class)) {
+            require $file;
+        }
+    }
 
-        if (false !== ($pos = strripos($class, '\\'))) {
+    /**
+     * Finds the path to the file where the class is defined.
+     *
+     * @param string $class The name of the class
+     *
+     * @return string|null The path, if found
+     */
+    public function findFile($class)
+    {
+        if ('\\' == $class[0]) {
+            $class = substr($class, 1);
+        }
+
+        if (false !== $pos = strrpos($class, '\\')) {
             // namespaced class name
             $namespace = substr($class, 0, $pos);
-            foreach ($this->namespaces as $ns => $dir) {
-                if (0 === strpos($namespace, $ns)) {
-                    $className = substr($class, $pos + 1);
-                    $file = $dir.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
-                    if (file_exists($file)) {
-                        require $file;
-                        return;
+            foreach ($this->namespaces as $ns => $dirs) {
+                foreach ($dirs as $dir) {
+                    if (0 === strpos($namespace, $ns)) {
+                        $className = substr($class, $pos + 1);
+                        $file = $dir.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $namespace).DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
+                        if (file_exists($file)) {
+                            return $file;
+                        }
                     }
                 }
             }
 
-            if (null !== $this->namespaceFallback) {
-                $file = $this->namespaceFallback.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
+            foreach ($this->namespaceFallback as $dir) {
+                $file = $dir.DIRECTORY_SEPARATOR.str_replace('\\', DIRECTORY_SEPARATOR, $class).'.php';
                 if (file_exists($file)) {
-                    require $file;
+                    return $file;
                 }
             }
         } else {
             // PEAR-like class name
-            foreach ($this->prefixes as $prefix => $dir) {
-                if (0 === strpos($class, $prefix)) {
-                    $file = $dir.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
-                    if (file_exists($file)) {
-                        require $file;
-                        return;
+            foreach ($this->prefixes as $prefix => $dirs) {
+                foreach ($dirs as $dir) {
+                    if (0 === strpos($class, $prefix)) {
+                        $file = $dir.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+                        if (file_exists($file)) {
+                            return $file;
+                        }
                     }
                 }
             }
 
-            if (null !== $this->prefixFallback) {
-                $file = $this->prefixFallback.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
+            foreach ($this->prefixFallback as $dir) {
+                $file = $dir.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $class).'.php';
                 if (file_exists($file)) {
-                    require $file;
+                    return $file;
                 }
             }
         }

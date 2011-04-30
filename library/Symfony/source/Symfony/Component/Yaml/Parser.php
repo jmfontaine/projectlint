@@ -2,7 +2,7 @@
 
 /*
  * This file is part of the Symfony package.
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
+ * (c) Fabien Potencier <fabien@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,15 +13,15 @@ namespace Symfony\Component\Yaml;
 /**
  * Parser parses YAML strings to convert them to PHP arrays.
  *
- * @author Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
 class Parser
 {
-    protected $offset         = 0;
-    protected $lines          = array();
-    protected $currentLineNb  = -1;
-    protected $currentLine    = '';
-    protected $refs           = array();
+    private $offset         = 0;
+    private $lines          = array();
+    private $currentLineNb  = -1;
+    private $currentLine    = '';
+    private $refs           = array();
 
     /**
      * Constructor
@@ -130,7 +130,7 @@ class Parser
                             }
                         } else {
                             // Associative array, merge
-                            $merged = array_merge($merge, $parsed);
+                            $merged = array_merge($merged, $parsed);
                         }
 
                         $isProcessed = $merged;
@@ -167,7 +167,7 @@ class Parser
                     $value = Inline::load($this->lines[0]);
                     if (is_array($value)) {
                         $first = reset($value);
-                        if ('*' === substr($first, 0, 1)) {
+                        if (is_string($first) && '*' === substr($first, 0, 1)) {
                             $data = array();
                             foreach ($value as $alias) {
                                 $data[] = $this->refs[substr($alias, 1)];
@@ -223,7 +223,7 @@ class Parser
      *
      * @return integer The current line number
      */
-    protected function getRealCurrentLineNb()
+    private function getRealCurrentLineNb()
     {
         return $this->currentLineNb + $this->offset;
     }
@@ -233,7 +233,7 @@ class Parser
      *
      * @return integer The current line indentation
      */
-    protected function getCurrentLineIndentation()
+    private function getCurrentLineIndentation()
     {
         return strlen($this->currentLine) - strlen(ltrim($this->currentLine, ' '));
     }
@@ -247,7 +247,7 @@ class Parser
      *
      * @throws ParserException When indentation problem are detected
      */
-    protected function getNextEmbedBlock($indentation = null)
+    private function getNextEmbedBlock($indentation = null)
     {
         $this->moveToNextLine();
 
@@ -293,8 +293,10 @@ class Parser
 
     /**
      * Moves the parser to the next line.
+     *
+     * @return Boolean
      */
-    protected function moveToNextLine()
+    private function moveToNextLine()
     {
         if ($this->currentLineNb >= count($this->lines) - 1) {
             return false;
@@ -308,7 +310,7 @@ class Parser
     /**
      * Moves the parser to the previous line.
      */
-    protected function moveToPreviousLine()
+    private function moveToPreviousLine()
     {
         $this->currentLine = $this->lines[--$this->currentLineNb];
     }
@@ -320,9 +322,9 @@ class Parser
      *
      * @return mixed  A PHP value
      *
-     * @throws ParserException When reference doesn't not exist
+     * @throws ParserException When reference does not exist
      */
-    protected function parseValue($value)
+    private function parseValue($value)
     {
         if ('*' === substr($value, 0, 1)) {
             if (false !== $pos = strpos($value, '#')) {
@@ -341,9 +343,9 @@ class Parser
             $modifiers = isset($matches['modifiers']) ? $matches['modifiers'] : '';
 
             return $this->parseFoldedScalar($matches['separator'], preg_replace('#\d+#', '', $modifiers), intval(abs($modifiers)));
-        } else {
-            return Inline::load($value);
         }
+
+        return Inline::load($value);
     }
 
     /**
@@ -355,7 +357,7 @@ class Parser
      *
      * @return string  The text value
      */
-    protected function parseFoldedScalar($separator, $indicator = '', $indentation = 0)
+    private function parseFoldedScalar($separator, $indicator = '', $indentation = 0)
     {
         $separator = '|' == $separator ? "\n" : ' ';
         $text = '';
@@ -425,7 +427,7 @@ class Parser
      *
      * @return Boolean Returns true if the next line is indented, false otherwise
      */
-    protected function isNextLineIndented()
+    private function isNextLineIndented()
     {
         $currentIndentation = $this->getCurrentLineIndentation();
         $notEOF = $this->moveToNextLine();
@@ -453,7 +455,7 @@ class Parser
      *
      * @return Boolean Returns true if the current line is empty or if it is a comment line, false otherwise
      */
-    protected function isCurrentLineEmpty()
+    private function isCurrentLineEmpty()
     {
         return $this->isCurrentLineBlank() || $this->isCurrentLineComment();
     }
@@ -463,7 +465,7 @@ class Parser
      *
      * @return Boolean Returns true if the current line is blank, false otherwise
      */
-    protected function isCurrentLineBlank()
+    private function isCurrentLineBlank()
     {
         return '' == trim($this->currentLine, ' ');
     }
@@ -473,7 +475,7 @@ class Parser
      *
      * @return Boolean Returns true if the current line is a comment line, false otherwise
      */
-    protected function isCurrentLineComment()
+    private function isCurrentLineComment()
     {
         //checking explicitly the first char of the trim is faster than loops or strpos
         $ltrimmedLine = ltrim($this->currentLine, ' ');
@@ -487,7 +489,7 @@ class Parser
      *
      * @return string A cleaned up YAML string
      */
-    protected function cleanup($value)
+    private function cleanup($value)
     {
         $value = str_replace(array("\r\n", "\r"), "\n", $value);
 

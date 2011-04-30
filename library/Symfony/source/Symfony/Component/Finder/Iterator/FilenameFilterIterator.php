@@ -3,7 +3,7 @@
 /*
  * This file is part of the Symfony package.
  *
- * (c) Fabien Potencier <fabien.potencier@symfony-project.com>
+ * (c) Fabien Potencier <fabien@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -16,12 +16,12 @@ use Symfony\Component\Finder\Glob;
 /**
  * FilenameFilterIterator filters files by patterns (a regexp, a glob, or a string).
  *
- * @author Fabien Potencier <fabien.potencier@symfony-project.com>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
 class FilenameFilterIterator extends \FilterIterator
 {
-    protected $matchRegexps;
-    protected $noMatchRegexps;
+    private $matchRegexps;
+    private $noMatchRegexps;
 
     /**
      * Constructor.
@@ -52,13 +52,11 @@ class FilenameFilterIterator extends \FilterIterator
      */
     public function accept()
     {
-        $fileinfo = $this->getInnerIterator()->current();
-
         // should at least match one rule
         if ($this->matchRegexps) {
             $match = false;
             foreach ($this->matchRegexps as $regex) {
-                if (preg_match($regex, $fileinfo->getFilename())) {
+                if (preg_match($regex, $this->getFilename())) {
                     $match = true;
                     break;
                 }
@@ -71,7 +69,7 @@ class FilenameFilterIterator extends \FilterIterator
         if ($this->noMatchRegexps) {
             $exclude = false;
             foreach ($this->noMatchRegexps as $regex) {
-                if (preg_match($regex, $fileinfo->getFilename())) {
+                if (preg_match($regex, $this->getFilename())) {
                     $exclude = true;
                     break;
                 }
@@ -83,7 +81,7 @@ class FilenameFilterIterator extends \FilterIterator
         return $match && !$exclude;
     }
 
-    protected function toRegex($str)
+    private function toRegex($str)
     {
         if (preg_match('/^([^a-zA-Z0-9\\\\]).+?\\1[ims]?$/', $str)) {
             return $str;
