@@ -1,16 +1,6 @@
 #!/usr/bin/env php
 <?php
-// Set up autoloader
-require_once __DIR__ . '/library/Symfony/source/Symfony/Component/ClassLoader/UniversalClassLoader.php';
-use Symfony\Component\ClassLoader\UniversalClassLoader;
-$loader = new UniversalClassLoader();
-$loader->registerNamespaces(
-    array(
-        'ProjectLint' => __DIR__ . '/library/ProjectLint/source',
-        'Symfony'     => __DIR__ . '/library/Symfony/source',
-    )
-);
-$loader->register();
+require __DIR__ . '/vendor/autoload.php';
 
 $application = new \ProjectLint\Console\ProjectLint();
 $application->run();
