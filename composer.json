@@ -20,7 +20,7 @@
         "symfony/Yaml": "~2.5.0"
     },
     "autoload": {
-        "psr-0": {"ProjectLint": "library/ProjectLint/source/"}
+        "psr-4": {"ProjectLint\\": "src/"}
     },
     "support": {
         "issues": "https://github.com/jmfontaine/projectlint/issues"
