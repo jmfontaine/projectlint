@@ -10,10 +10,8 @@ class ProjectLint extends Application
     {
     	parent::__construct('ProjectLint by Jean-Marc Fontaine', '0.1.0-dev');
 
-    	$this->addCommands(
-    	    array(
-    	        new Command\Check()
-	        )
-		);
+        $checkCommand = new Command\Check();
+    	$this->add($checkCommand);
+        $this->setDefaultCommand($checkCommand->getName());
     }
 }
