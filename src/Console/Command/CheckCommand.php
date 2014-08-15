@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
-class Check extends Command
+class CheckCommand extends Command
 {
     protected function configure()
     {

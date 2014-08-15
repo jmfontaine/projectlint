@@ -10,7 +10,7 @@ class Application extends BaseApplication
     {
         parent::__construct('ProjectLint by Jean-Marc Fontaine', '0.1.0-dev');
 
-        $checkCommand = new Command\Check();
+        $checkCommand = new Command\CheckCommand();
         $this->add($checkCommand);
         $this->setDefaultCommand($checkCommand->getName());
     }
