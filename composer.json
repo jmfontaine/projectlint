@@ -28,6 +28,7 @@
     "support": {
         "issues": "https://github.com/jmfontaine/projectlint/issues"
     },
+    "bin": ["bin/projectlint"],
     "config": {
         "bin-dir": "bin"
     }
