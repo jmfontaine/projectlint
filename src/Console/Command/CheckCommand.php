@@ -15,23 +15,13 @@ class CheckCommand extends Command
     protected function configure()
     {
         $this->setName('check')
-             ->setDescription('Checks project structure')
-             ->setHelp(PHP_EOL . 'Checks project structure' . PHP_EOL);
+            ->setDescription('Checks project structure')
+            ->setHelp(PHP_EOL . 'Checks project structure' . PHP_EOL);
 
         $this->setDefinition(
             array(
-                new InputArgument(
-                    'ruleset',
-                    InputArgument::REQUIRED,
-                    'Ruleset path'
-                ),
-                new InputOption(
-                    'project-path',
-                    'p',
-                    InputOption::VALUE_REQUIRED,
-                    'Project path',
-                    getcwd()
-                ),
+                new InputArgument('ruleset', InputArgument::OPTIONAL, 'Ruleset path', 'projectlint.yml'),
+                new InputOption('project-path', 'p', InputOption::VALUE_REQUIRED, 'Project path', 'Current folder'),
             )
         );
     }
