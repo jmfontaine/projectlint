@@ -2,5 +2,5 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-$application = new \ProjectLint\Console\ProjectLint();
+$application = new \ProjectLint\Console\Application();
 $application->run();

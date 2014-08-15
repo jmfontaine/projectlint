@@ -2,9 +2,9 @@
 namespace ProjectLint\Console;
 
 use ProjectLint\Console\Command;
-use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Application as BaseApplication;
 
-class ProjectLint extends Application
+class Application extends BaseApplication
 {
     public function __construct()
     {
