@@ -19,10 +19,16 @@
         "symfony/Finder": "~2.5.0",
         "symfony/Yaml": "~2.5.0"
     },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "~1.5.4"
+    },
     "autoload": {
         "psr-4": {"ProjectLint\\": "src/"}
     },
     "support": {
         "issues": "https://github.com/jmfontaine/projectlint/issues"
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }
