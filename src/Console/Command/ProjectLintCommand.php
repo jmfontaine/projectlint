@@ -10,13 +10,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
-class CheckCommand extends Command
+class ProjectLintCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('check')
-            ->setDescription('Checks project structure')
-            ->setHelp(PHP_EOL . 'Checks project structure' . PHP_EOL);
+        $this->setName('projectlint')
+             ->setDescription('Checks project structure')
+             ->setHelp(PHP_EOL . 'Checks project layout against a ruleset' . PHP_EOL);
 
         $this->setDefinition(
             array(
