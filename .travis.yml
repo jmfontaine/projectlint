@@ -15,4 +15,4 @@ before_script:
   - composer install
 
 script:
-  - bin/phpcs --standard=psr2 src/
+  - bin/phpcs --standard=psr2 bin/projectlint src/
