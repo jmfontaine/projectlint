@@ -16,28 +16,24 @@ class Check extends Command
     {
         $this->setName('check')
              ->setDescription('Checks project structure')
-             ->setDefinition(
-                 array(
-                     new InputArgument(
-                     	'ruleset',
-                         InputArgument::REQUIRED,
-                         'Ruleset path'
-                     ),
-                     new InputOption(
-                     	'project-path',
-                     	'p',
-                         InputOption::VALUE_REQUIRED,
-                         'Project path',
-                         getcwd()
-                     ),
-                 )
-             )->setHelp(
-                 sprintf(
-					'%sChecks project structure%s',
-                 PHP_EOL,
-                 PHP_EOL
-                 )
-             );
+             ->setHelp(PHP_EOL . 'Checks project structure' . PHP_EOL);
+
+        $this->setDefinition(
+            array(
+                new InputArgument(
+                    'ruleset',
+                    InputArgument::REQUIRED,
+                    'Ruleset path'
+                ),
+                new InputOption(
+                    'project-path',
+                    'p',
+                    InputOption::VALUE_REQUIRED,
+                    'Project path',
+                    getcwd()
+                ),
+            )
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

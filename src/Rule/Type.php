@@ -13,7 +13,7 @@ class Type extends AbstractRule
         $expectedClass = '';
         $actualClass   = substr(get_class($resource), 21);
 
-        switch($this->_data) {
+        switch($this->data) {
             case 'folder':
                 if ('Folder' != $actualClass) {
                     $message       = 'Resource is not a folder';
@@ -37,7 +37,7 @@ class Type extends AbstractRule
 
             default:
                 throw new Exception(
-                    "Invalid resource type '$this->_data'"
+                    "Invalid resource type '$this->data'"
                 );
         }
 

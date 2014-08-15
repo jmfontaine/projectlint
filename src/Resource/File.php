@@ -6,17 +6,6 @@ use ProjectLint\Resource\Factory;
 
 class File extends AbstractResource
 {
-    protected function _getMimeType($options = null)
-    {
-        $options = $options | FILEINFO_PRESERVE_ATIME;
-
-        $finfo    = finfo_open($options);
-        $mimeType = finfo_file($finfo, $this->getRealpath());
-        finfo_close($finfo);
-
-        return $mimeType;
-    }
-
     public function getContent()
     {
         $filename = $this->getFilename();
@@ -46,7 +35,7 @@ class File extends AbstractResource
 
     public function getFilename()
     {
-        return $this->_fileInfo->getFilename();
+        return $this->fileInfo->getFilename();
     }
 
     public function getMimeEncoding()
@@ -56,18 +45,22 @@ class File extends AbstractResource
 
     public function getMimeType($returnAll = false)
     {
-        $options = FILEINFO_MIME_TYPE;
+        $options = FILEINFO_MIME_TYPE | FILEINFO_PRESERVE_ATIME;
 
         if ($returnAll) {
             $options = $options | FILEINFO_CONTINUE;
         }
 
-        return $this->_getMimeType($options);
+        $finfo    = finfo_open($options);
+        $mimeType = finfo_file($finfo, $this->getRealpath());
+        finfo_close($finfo);
+
+        return $mimeType;
     }
 
     public function getSize($unit = Factory::BYTE)
     {
-        $size = $this->_fileInfo->getSize();
+        $size = $this->fileInfo->getSize();
 
         switch ($unit) {
             case Factory::BYTE:
@@ -97,7 +90,7 @@ class File extends AbstractResource
 
     public function isExecutable()
     {
-        return $this->_fileInfo->isExecutable();
+        return $this->fileInfo->isExecutable();
     }
 
     public function isFile()
@@ -107,11 +100,11 @@ class File extends AbstractResource
 
     public function isReadable()
     {
-        return $this->_fileInfo->isReadable();
+        return $this->fileInfo->isReadable();
     }
 
     public function isWritable()
     {
-        return $this->_fileInfo->isWritable();
+        return $this->fileInfo->isWritable();
     }
 }

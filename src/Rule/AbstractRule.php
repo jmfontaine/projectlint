@@ -5,21 +5,22 @@ use ProjectLint\Resource\AbstractResource;
 
 abstract class AbstractRule
 {
-    protected $_data;
-    protected $_rulesManager;
-    protected $_selector;
+    protected $data;
 
-    public function __construct(RulesManager $rulesManager,
-        $selector, $data)
+    protected $rulesManager;
+
+    protected $selector;
+
+    public function __construct(RulesManager $rulesManager, $selector, $data)
     {
         $this->setRulesManager($rulesManager);
         $this->setSelector($selector);
         $this->setData($data);
     }
 
-    public function addError($message, $expectedValue, $actualValue,
-        AbstractResource $resource) {
-        $this->_rulesManager->addError(
+    public function addError($message, $expectedValue, $actualValue, AbstractResource $resource)
+    {
+        $this->rulesManager->addError(
             $message,
             $expectedValue,
             $actualValue,
@@ -31,12 +32,12 @@ abstract class AbstractRule
 
     public function getData()
     {
-        return $this->_data;
+        return $this->data;
     }
 
     public function getSelector()
     {
-        return $this->_selector;
+        return $this->selector;
     }
 
     public function getType()
@@ -46,13 +47,13 @@ abstract class AbstractRule
 
     public function setData($data)
     {
-        $this->_data = $data;
+        $this->data = $data;
         return $this;
     }
 
     public function setRulesManager(RulesManager $rulesManager)
     {
-        $this->_rulesManager = $rulesManager;
+        $this->rulesManager = $rulesManager;
         return $this;
     }
 
@@ -64,7 +65,7 @@ abstract class AbstractRule
 
     public function setSelector($selector)
     {
-        $this->_selector = $selector;
+        $this->selector = $selector;
         return $this;
     }
 }

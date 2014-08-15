@@ -7,15 +7,15 @@ use ProjectLint\Resource\Factory;
 
 class Size extends AbstractRule
 {
-    protected function _checkFile(AbstractResource $resource)
+    protected function checkFile(AbstractResource $resource)
     {
-        $operator     = $this->_extractOperator($this->_data);
-        $value        = $this->_extractValue($this->_data);
-        $unit         = $this->_extractUnit($this->_data);
-        $expectedSize = $this->_convertSizeToBytes($value, $unit);
+        $operator     = $this->extractOperator($this->data);
+        $value        = $this->extractValue($this->data);
+        $unit         = $this->extractUnit($this->data);
+        $expectedSize = $this->convertSizeToBytes($value, $unit);
         $actualSize   = $resource->getSize(Factory::BYTE);
 
-        $result = $this->_evaluateResult($actualSize, $expectedSize, $operator);
+        $result = $this->evaluateResult($actualSize, $expectedSize, $operator);
         if (false === $result) {
             $this->addError(
                 "File has not the required size",
@@ -26,24 +26,24 @@ class Size extends AbstractRule
         }
     }
 
-    protected function _checkFolder(AbstractResource $resource)
+    protected function checkFolder(AbstractResource $resource)
     {
-        $operator      = $this->_extractOperator($this->_data);
-        $value         = $this->_extractValue($this->_data);
+        $operator      = $this->extractOperator($this->data);
+        $value         = $this->extractValue($this->data);
         $childrenCount = count($resource->getChildren());
 
-        $result = $this->_evaluateResult($childrenCount, $value, $operator);
+        $result = $this->evaluateResult($childrenCount, $value, $operator);
         if (false === $result) {
             $this->addError(
                 "The folder has not the required number of children",
-                $this->_data,
+                $this->data,
                 $childrenCount,
                 $resource
             );
         }
     }
 
-    protected function _convertSizeToBytes($size, $unit)
+    protected function convertSizeToBytes($size, $unit)
     {
         switch ($unit) {
             case '':
@@ -72,20 +72,20 @@ class Size extends AbstractRule
         return $size;
     }
 
-    protected function _evaluateResult($value1, $value2, $operator)
+    protected function evaluateResult($value1, $value2, $operator)
     {
         // KLUDGE: Find a way to avoid using eval()
         return eval("return $value1 $operator $value2;");
     }
 
-    protected function _extractOperator($data)
+    protected function extractOperator($data)
     {
         // Extract operator by removing non operator characters
         $operator = preg_replace('/[^<>=\!]/', '', $data);
 
         // Check operator
         $validOperators = array(
-        	'=',
+            '=',
             '==',
             '!=',
             '<>',
@@ -103,14 +103,14 @@ class Size extends AbstractRule
         return $operator;
     }
 
-    protected function _extractUnit($data)
+    protected function extractUnit($data)
     {
         // Extract unit by removing non unit characters
         $unit = preg_replace('/[^BkMG]/', '', $data);
 
         // Check unit
         $validUnits = array(
-        	'',
+            '',
             'B',
             'kB',
             'MB',
@@ -125,7 +125,7 @@ class Size extends AbstractRule
         return $unit;
     }
 
-    protected function _extractValue($data)
+    protected function extractValue($data)
     {
         return preg_replace('/[^0-9]/', '', $data);
     }
@@ -133,9 +133,9 @@ class Size extends AbstractRule
     public function check(AbstractResource $resource)
     {
         if ($resource->isFolder()) {
-            $this->_checkFolder($resource);
+            $this->checkFolder($resource);
         } else {
-            $this->_checkFile($resource);
+            $this->checkFile($resource);
         }
     }
 }

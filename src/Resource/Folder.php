@@ -3,11 +3,11 @@ namespace ProjectLint\Resource;
 
 class Folder extends AbstractResource
 {
-    protected $_children = array();
+    protected $children = array();
 
     public function getChildren()
     {
-        return $this->_children;
+        return $this->children;
     }
 
     public function isFolder()

@@ -16,7 +16,7 @@ class Link extends File
 
     public function getSize($unit = self::BYTE)
     {
-        $size = $this->_fileInfo->getSize();
+        $size = $this->fileInfo->getSize();
 
         switch ($unit) {
             case self::BYTE:
@@ -46,7 +46,7 @@ class Link extends File
 
     public function getTarget()
     {
-        return $this->_fileInfo->getTargetPath();
+        return $this->fileInfo->getTargetPath();
     }
 
     public function isLink()

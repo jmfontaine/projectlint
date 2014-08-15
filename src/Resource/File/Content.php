@@ -5,7 +5,7 @@ use ProjectLint\Exception;
 
 class Content
 {
-    protected $_rawContent;
+    protected $rawContent;
 
     public function findPattern($pattern)
     {
@@ -16,12 +16,10 @@ class Content
 
     public function findRegexPattern($pattern)
     {
-        $result = preg_match($pattern, $this->_rawContent);
+        $result = preg_match($pattern, $this->rawContent);
 
         if (false === $result) {
-            throw new Exception(
-            	"Could not use pattern '$pattern'"
-            );
+            throw new Exception("Could not use pattern '$pattern'");
         }
 
         return $result;
@@ -29,6 +27,6 @@ class Content
 
     public function getRawContent()
     {
-        return $this->_rawContent;
+        return $this->rawContent;
     }
 }

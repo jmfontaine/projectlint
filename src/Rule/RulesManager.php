@@ -6,30 +6,30 @@ use Symfony\Component\Yaml\Parser;
 
 class RulesManager
 {
-    protected $_errors = array();
+    protected $errors = array();
 
-    protected $_projectPath;
+    protected $projectPath;
 
-    protected $_rules = array(
+    protected $rules = array(
         'settings'  => array(),
         'classes'   => array(),
         'resources' => array(),
     );
 
-    protected function _getRelativePath($absolutePath)
+    protected function getRelativePath($absolutePath)
     {
-        $projectPathLength = strlen($this->_projectPath);
+        $projectPathLength = strlen($this->projectPath);
         return substr($absolutePath, $projectPathLength);
     }
 
-    protected function _getResourcesRules(array $data, $path = '')
+    protected function getResourcesRules(array $data, $path = '')
     {
         $rules = array();
 
         foreach ($data as $key => $value) {
             if ('children' == $key) {
                 foreach ($value as $childName => $childValue) {
-                    $childrenRules = $this->_getResourcesRules(
+                    $childrenRules = $this->getResourcesRules(
                         $childValue,
                         "$path/$childName"
                     );
@@ -49,12 +49,12 @@ class RulesManager
 
     public function __construct($projectPath)
     {
-        $this->_projectPath = $projectPath;
+        $this->projectPath = $projectPath;
     }
 
-    public function addError($message, $expectedValue, $actualValue,
-        AbstractResource $resource) {
-        $this->_errors[] = array(
+    public function addError($message, $expectedValue, $actualValue, AbstractResource $resource)
+    {
+        $this->errors[] = array(
             'actualValue'   => $actualValue,
             'expectedValue' => $expectedValue,
             'message'       => $message,
@@ -79,15 +79,15 @@ class RulesManager
 
     public function getErrors()
     {
-        return $this->_errors;
+        return $this->errors;
     }
 
     public function getRulesForResource(AbstractResource $resource)
     {
-        $relativePath = $this->_getRelativePath($resource->getRealPath());
+        $relativePath = $this->getRelativePath($resource->getRealPath());
 
         $rules = array();
-        foreach ($this->_rules['resources'] as $rule) {
+        foreach ($this->rules['resources'] as $rule) {
             if ($relativePath == $rule->getSelector()) {
                 $rules[] = $rule;
             }
@@ -100,13 +100,14 @@ class RulesManager
     {
         // Load resources specific rules
         if (array_key_exists('resources', $data)) {
-            $this->_rules['resources'] = $this->_getResourcesRules(
+            $this->rules['resources'] = $this->getResourcesRules(
                 $data['resources']
             );
         }
 
         return $this;
     }
+
     public function loadFromFile($filepath)
     {
         $yamlParser = new Parser();
