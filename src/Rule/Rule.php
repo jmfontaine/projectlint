@@ -100,7 +100,7 @@ class Rule
         return $this;
     }
 
-    public function __construct($name, $expression, array $include, array $exclude)
+    public function __construct($name, $expression, array $include = array(), array $exclude = array())
     {
         $this->setName($name)
              ->setExpression($expression)
