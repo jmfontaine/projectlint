@@ -6,11 +6,6 @@ use Symfony\Component\Finder\Finder;
 class ItemManager
 {
     /**
-     * @var array
-     */
-    private $cache = array();
-
-    /**
      * @var string
      */
     private $rootPath;
