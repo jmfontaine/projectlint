@@ -1,0 +1,7 @@
+ruleset:
+    name: Project Lint
+    rules:
+        "PHP files only in 'src' folder":
+            expression: item.type == 'file' and item.extension == 'php'
+            include:
+                - src

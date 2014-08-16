@@ -16,3 +16,4 @@ before_script:
 
 script:
   - bin/phpcs --standard=psr2 bin/projectlint src/
+  - bin/projectlint
