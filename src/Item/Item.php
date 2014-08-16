@@ -1,16 +1,27 @@
 <?php
 namespace ProjectLint\Item;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
 
 class Item
 {
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
     /**
      * Resource
      *
      * @var SplFileInfo
      */
     private $resource;
+
+    /**
+     * @var string
+     */
+    private $rootPath;
 
     /**
      * @return \SplFileInfo
@@ -32,9 +43,51 @@ class Item
         return $this;
     }
 
-    public function __construct(SplFileInfo $resource)
+    /**
+     * @return Filesystem
+     */
+    private function getFilesystem()
     {
-        $this->setResource($resource);
+        return $this->filesystem;
+    }
+
+    /**
+     * @param Filesystem $filesystem
+     *
+     * @return $this
+     */
+    private function setFilesystem(Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    private function getRootPath()
+    {
+        return $this->rootPath;
+    }
+
+    /**
+     * @param string $rootPath
+     *
+     * @return $this
+     */
+    private function setRootPath($rootPath)
+    {
+        $this->rootPath = $rootPath;
+
+        return $this;
+    }
+
+    public function __construct(SplFileInfo $resource, $rootPath)
+    {
+        $this->setResource($resource)
+             ->setRootPath($rootPath)
+             ->setFilesystem(new Filesystem());
     }
 
     /**
@@ -59,6 +112,26 @@ class Item
 
     public function getRelativePathname()
     {
-        return $this->getResource()->getRelativePathname();
+        $relativePath = $this->getFilesystem()->makePathRelative(
+            $this->getResource()->getPath(),
+            $this->getRootPath()
+        );
+
+        return $relativePath . $this->getResource()->getFilename();
+    }
+
+    public function getName()
+    {
+        return $this->getResource()->getFilename();
+    }
+
+    public function getPath()
+    {
+        return $this->getResource()->getPath();
+    }
+
+    public function getPathname()
+    {
+        return $this->getResource()->getPathname();
     }
 }

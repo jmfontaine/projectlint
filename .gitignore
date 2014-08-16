@@ -2,4 +2,6 @@
 .project
 .settings
 bin/phpcs
+bin/phpunit
+build/
 vendor/
