@@ -11,7 +11,7 @@ class RuleSetChecker
      */
     private $itemManager;
 
-    private function checkRule(Rule $rule, Report$report)
+    private function checkRule(Rule $rule, Report $report)
     {
         $items = $this->getItemManager()->getItems(
             $rule->getInclude(),

@@ -19,7 +19,9 @@ class RuleSetConfiguration implements ConfigurationInterface
                     ->prototype('array')
                         ->beforeNormalization()
                             ->ifString()
-                            ->then(function($value) { return array('expression' => $value); })
+                            ->then(function ($value) {
+                                return array('expression' => $value);
+                            })
                         ->end()
                         ->children()
                             ->scalarNode('expression')->isRequired()->cannotBeEmpty()->end()
