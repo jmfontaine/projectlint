@@ -1,5 +1,5 @@
 <?php
-namespace ProjectLint\RuleSet;
+namespace ProjectLint\Rule;
 
 use ProjectLint\Item\Item;
 use ProjectLint\Report\Report;

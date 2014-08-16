@@ -1,5 +1,5 @@
 <?php
-namespace ProjectLint\RuleSet;
+namespace ProjectLint\Rule;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Processor;

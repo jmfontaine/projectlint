@@ -2,7 +2,7 @@
 namespace ProjectLint\Report;
 
 use ProjectLint\Item\Item;
-use ProjectLint\RuleSet\Rule;
+use ProjectLint\Rule\Rule;
 
 class Violation
 {

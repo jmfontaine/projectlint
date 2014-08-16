@@ -3,8 +3,8 @@ namespace ProjectLint\Console\Command;
 
 use ProjectLint\Item\ItemManager;
 use ProjectLint\Report\Renderer\TextRenderer;
-use ProjectLint\RuleSet\RuleSet;
-use ProjectLint\RuleSet\RuleSetChecker;
+use ProjectLint\Rule\RuleSet;
+use ProjectLint\Rule\RuleSetChecker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

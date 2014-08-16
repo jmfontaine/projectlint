@@ -1,5 +1,5 @@
 <?php
-namespace ProjectLint\RuleSet;
+namespace ProjectLint\Rule;
 
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Yaml\Yaml;
