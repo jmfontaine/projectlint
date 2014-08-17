@@ -3,7 +3,7 @@ ProjectLint - Enforce project layout rules
 
 ProjectLint helps you declare and enforce project layout rules, ensuring your project stays consistent at all times.
 
-[![Build Status](https://api.travis-ci.org/jmfontaine/projectlint.svg?branch=develop)](https://travis-ci.org/jmfontaine/projectlint)
+[![Build Status](https://api.travis-ci.org/jmfontaine/projectlint.svg?branch=master)](https://travis-ci.org/jmfontaine/projectlint)
 
 **This project is still in beta, there may be bugs and missing features.**
 
