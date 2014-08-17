@@ -5,3 +5,4 @@ bin/phpcs
 bin/phpunit
 build/
 vendor/
+projectlint.phar

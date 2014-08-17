@@ -1,0 +1,14 @@
+name: projectlint.phar
+main: bin/projectlint
+include:
+  - src/
+  - vendor/
+exclude:
+  - build/
+  - doc/
+  - tests/
+  - vendor/mikey179/
+  - vendor/ocramius/
+  - vendor/phpunit/
+  - vendor/sebastian/
+  - vendor/squizlabs/
