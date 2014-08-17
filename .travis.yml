@@ -15,4 +15,6 @@ before_script:
   - composer install
 
 script:
-  - bin/phpcs --standard=psr2 bin/projectlint src/
+  - bin/phpunit -c phpunix.xml.dist
+  - bin/phpcs --standard=psr2 bin/projectlint src/ tests/
+  - bin/projectlint

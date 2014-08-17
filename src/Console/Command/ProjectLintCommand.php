@@ -1,16 +1,15 @@
 <?php
 namespace ProjectLint\Console\Command;
 
-use ProjectLint\Resource\Factory;
-use ProjectLint\Rule\RulesManager;
-use Psr\Log\LogLevel;
+use ProjectLint\Item\ItemManager;
+use ProjectLint\Report\Renderer\TextRenderer;
+use ProjectLint\Rule\RuleSet;
+use ProjectLint\Rule\RuleSetChecker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
-use Symfony\Component\Finder\Finder;
 
 class ProjectLintCommand extends Command
 {
@@ -18,46 +17,26 @@ class ProjectLintCommand extends Command
     {
         $this->setName('projectlint')
              ->setDescription('Checks project structure')
-             ->setHelp(PHP_EOL . 'Checks project layout against a ruleset' . PHP_EOL);
-
-        $this->setDefinition(
-            array(
-                new InputArgument('ruleset', InputArgument::OPTIONAL, 'Ruleset path', 'projectlint.yml'),
-                new InputOption('project-path', 'p', InputOption::VALUE_REQUIRED, 'Project path', 'Current folder'),
-            )
-        );
+             ->setHelp(PHP_EOL . 'Checks project layout against a ruleset' . PHP_EOL)
+             ->addArgument('ruleset', InputArgument::OPTIONAL, 'Ruleset path', 'projectlint.yml');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $logger = new ConsoleLogger($output);
 
-        $projectPath = $input->getOption('project-path');
+        $ruleSetPath = $input->getArgument('ruleset');
+        $ruleSet     = new RuleSet($ruleSetPath, $logger);
 
-        // Load ruleset
-        $rulesManager = new RulesManager($projectPath);
-        $rulesManager->loadFromFile($input->getArgument('ruleset'));
+        $itemManager = new ItemManager(getcwd());
 
-        // Iterate over project
-        $finder = new Finder();
-        $finder->in($projectPath)->sortByName();
-        foreach ($finder as $item) {
-            $resource = Factory::create($item, $projectPath);
-            $rulesManager->checkRules($resource);
-        }
+        $checker = new RuleSetChecker($itemManager);
+        $report  = $checker->check($ruleSet);
 
-        // Display errors
-        $errors = $rulesManager->getErrors();
-        foreach ($errors as $error) {
-            $output->writeln(
-                sprintf(
-                    "%s: %s (Expected: %s, actual: %s)\n",
-                    $error['resource']->getRelativePath(),
-                    $error['message'],
-                    $error['expectedValue'],
-                    $error['actualValue']
-                )
-            );
-        }
+        $renderer = new TextRenderer($output);
+        $renderer->render($report);
+
+        // Set exit code
+        return $report->hasViolations() ? 1 : 0;
     }
 }
