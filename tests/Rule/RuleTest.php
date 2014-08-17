@@ -16,15 +16,102 @@ class RuleTest extends ProjectLintTestCase
 
         $data = array();
 
+        // Atime
+        $data[] = array(
+            'bin/check.sh',
+            sprintf('item.atime == %d', mktime(23, 10, 23, 12, 14, 1977)),
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            sprintf('item.atime == %d', mktime(10, 42, 14, 11, 6, 1980)),
+            false,
+        );
+
+        // Ctime
+        $data[] = array(
+            'bin/check.sh',
+            sprintf('item.ctime == %d', mktime(23, 10, 23, 12, 14, 1977)),
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            sprintf('item.ctime == %d', mktime(10, 42, 14, 11, 6, 1980)),
+            false,
+        );
+
+        // Extension
         $data[] = array(
             'bin/check.sh',
             'item.extension == "sh"',
             true,
         );
-
         $data[] = array(
             'bin/check.sh',
             'item.extension == "php"',
+            false,
+        );
+
+        // Group
+        // KLUDGE: vfsStream doesn't allow using string as owner so we must rely on some magical constants
+        $data[] = array(
+            'bin/run.sh',
+            sprintf('item.group == %d', vfsStream::GROUP_USER_1),
+            true,
+        );
+        $data[] = array(
+            'bin/run.sh',
+            sprintf('item.group == %d', vfsStream::GROUP_USER_2),
+            false,
+        );
+
+        // Mtime
+        $data[] = array(
+            'bin/check.sh',
+            sprintf('item.mtime == %d', mktime(23, 10, 23, 12, 14, 1977)),
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            sprintf('item.mtime == %d', mktime(10, 42, 14, 11, 6, 1980)),
+            false,
+        );
+
+        // Owner
+        // KLUDGE: vfsStream doesn't allow using string as owner so we must rely on some magical constants
+        $data[] = array(
+            'bin/run.sh',
+            sprintf('item.owner == %d', vfsStream::OWNER_USER_1),
+            true,
+        );
+        $data[] = array(
+            'bin/run.sh',
+            sprintf('item.owner == %d', vfsStream::OWNER_USER_2),
+            false,
+        );
+
+        // Perms
+        // KLUDGE: For know ProjectLint only supports integer permissions (Vs. octal representation)
+        $data[] = array(
+            'bin/check.sh',
+            'item.perms == 33261',
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            'item.perms == 33206',
+            false,
+        );
+
+        // Size
+        $data[] = array(
+            'bin/run.sh',
+            'item.size <= 4096',
+            true,
+        );
+        $data[] = array(
+            'bin/run.sh',
+            'item.size < 1024',
             false,
         );
 

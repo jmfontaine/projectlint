@@ -91,23 +91,44 @@ class Item
     }
 
     /**
-     * @param string $name
+     * @param string $propertyName
      */
-    public function __get($name)
+    public function __get($propertyName)
     {
-        switch ($name) {
+        switch ($propertyName) {
+            case 'atime':
+                $propertyValue = $this->getResource()->getATime();
+                break;
+            case 'ctime':
+                $propertyValue = $this->getResource()->getCTime();
+                break;
             case 'extension':
-                $value = $this->getResource()->getExtension();
+                $propertyValue = $this->getResource()->getExtension();
+                break;
+            case 'group':
+                $propertyValue = $this->getResource()->getGroup();
+                break;
+            case 'mtime':
+                $propertyValue = $this->getResource()->getMTime();
+                break;
+            case 'owner':
+                $propertyValue = $this->getResource()->getOwner();
+                break;
+            case 'perms':
+                $propertyValue = $this->getResource()->getPerms();
+                break;
+            case 'size':
+                $propertyValue = $this->getResource()->getSize();
                 break;
             case 'type':
-                $value = $this->getResource()->getType();
+                $propertyValue = $this->getResource()->getType();
                 break;
 
             default:
-                throw new \InvalidArgumentException('Unknown property: ' . $name);
+                throw new \InvalidArgumentException('Unknown property: ' . $propertyName);
         }
 
-        return $value;
+        return $propertyValue;
     }
 
     public function getRelativePathname()

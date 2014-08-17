@@ -1,6 +1,7 @@
 <?php
 namespace ProjectLint\Test;
 
+use org\bovigo\vfs\content\LargeFileContent;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use org\bovigo\vfs\vfsStreamFile;
@@ -39,8 +40,18 @@ abstract class ProjectLintTestCase extends \PHPUnit_Framework_TestCase
         $directory = new vfsStreamDirectory('bin');
         $rootDirectory->addChild($directory);
 
-        $directory->addChild(new vfsStreamFile('check.sh'));
-        $directory->addChild(new vfsStreamFile('run.sh'));
+        $checkFile = new vfsStreamFile('check.sh', 0755);
+        $checkFile->lastAccessed(mktime(23, 10, 23, 12, 14, 1977))
+                  ->lastAttributeModified(mktime(23, 10, 23, 12, 14, 1977))
+                  ->lastModified(mktime(23, 10, 23, 12, 14, 1977));
+        $directory->addChild($checkFile);
+
+        $runFile = new vfsStreamFile('run.sh');
+        $runFile->chown(vfsStream::OWNER_USER_1)
+                ->chgrp(vfsStream::GROUP_USER_1)
+                ->withContent(LargeFileContent::withKilobytes(3));
+
+        $directory->addChild($runFile);
     }
 
     protected function createBuildDirectory(vfsStreamDirectory $rootDirectory)
