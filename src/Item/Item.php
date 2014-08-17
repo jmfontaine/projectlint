@@ -24,7 +24,7 @@ class Item
     private $rootPath;
 
     /**
-     * @return \SplFileInfo
+     * @return SplFileInfo
      */
     private function getResource()
     {
@@ -32,7 +32,7 @@ class Item
     }
 
     /**
-     * @param \SplFileInfo $resource
+     * @param SplFileInfo $resource
      *
      * @return $this
      */
@@ -104,7 +104,7 @@ class Item
                 break;
 
             default:
-                throw new \InvalidArgumentException('Unknown property:' . $name);
+                throw new \InvalidArgumentException('Unknown property: ' . $name);
         }
 
         return $value;
