@@ -140,19 +140,4 @@ class Item
 
         return $relativePath . $this->getResource()->getFilename();
     }
-
-    public function getName()
-    {
-        return $this->getResource()->getFilename();
-    }
-
-    public function getPath()
-    {
-        return $this->getResource()->getPath();
-    }
-
-    public function getPathname()
-    {
-        return $this->getResource()->getPathname();
-    }
 }
