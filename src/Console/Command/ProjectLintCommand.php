@@ -18,17 +18,20 @@ class ProjectLintCommand extends Command
         $this->setName('projectlint')
              ->setDescription('Checks project structure')
              ->setHelp(PHP_EOL . 'Checks project layout against a ruleset' . PHP_EOL)
-             ->addArgument('ruleset', InputArgument::OPTIONAL, 'Ruleset path', 'projectlint.yml');
+             ->addArgument('path', InputArgument::OPTIONAL, 'Project path', 'Current directory');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $logger = new ConsoleLogger($output);
 
-        $ruleSetPath = $input->getArgument('ruleset');
-        $ruleSet     = new RuleSet($ruleSetPath, $logger);
+        $projectPath = $input->getArgument('path');
+        if ('Current directory' == $projectPath) {
+            $projectPath = getcwd();
+        }
 
-        $itemManager = new ItemManager(getcwd());
+        $ruleSet     = new RuleSet($projectPath . '/projectlint.yml', $logger);
+        $itemManager = new ItemManager($projectPath);
 
         $checker = new RuleSetChecker($itemManager);
         $report  = $checker->check($ruleSet);
