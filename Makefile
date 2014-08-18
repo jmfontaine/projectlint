@@ -14,7 +14,7 @@ endif
 all: clean check test phar
 
 check:
-	@bin/phpcs --standard=psr2  bin/projectlint src/ tests/
+	@vendor/bin/phpcs --standard=psr2  bin/projectlint src/ tests/
 
 clean:
 	@-rm -rf build/coverage
@@ -60,8 +60,8 @@ sign: phar
 	@gpg --armor --detach-sig projectlint.phar
 
 test:
-	@bin/phpunit -c phpunix.xml.dist
+	@vendor/bin/phpunit -c phpunix.xml.dist
 
 test-cov:
 	@-rm -rf build/coverage
-	@bin/phpunit -c phpunix.xml.dist --coverage-html=build/coverage
+	@vendor/bin/phpunit -c phpunix.xml.dist --coverage-html=build/coverage
