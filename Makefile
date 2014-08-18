@@ -51,13 +51,14 @@ phar:
 		exit 1; \
 	fi
 
-	@-rm -f projectlint.phar
-	@-rm -f projectlint.phar.asc
 	@$(PHARCC_COMMAND) "build"
+	@-rm -rf build/output
+	@mkdir build/output
+	@mv projectlint.phar build/output
 
 sign: phar
-	@-rm -f projectlint.phar.asc
-	@gpg --armor --detach-sig projectlint.phar
+	@-rm -f build/output/projectlint.phar.asc
+	@gpg --armor --detach-sig build/output/projectlint.phar
 
 test:
 	@vendor/bin/phpunit -c phpunix.xml.dist
