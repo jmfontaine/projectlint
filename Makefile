@@ -52,7 +52,12 @@ phar:
 	fi
 
 	@-rm -f projectlint.phar
+	@-rm -f projectlint.phar.asc
 	@$(PHARCC_COMMAND) "build"
+
+sign: phar
+	@-rm -f projectlint.phar.asc
+	@gpg --armor --detach-sig projectlint.phar
 
 test:
 	@bin/phpunit -c phpunix.xml.dist
