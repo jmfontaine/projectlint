@@ -36,7 +36,7 @@ class Application extends BaseApplication
 
     public function __construct()
     {
-        parent::__construct('ProjectLint by Jean-Marc Fontaine', '0.1.0');
+        parent::__construct('ProjectLint', '0.1.0');
     }
 
     /**
