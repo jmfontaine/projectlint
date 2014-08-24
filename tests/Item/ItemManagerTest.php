@@ -114,56 +114,57 @@ class ItemManagerTest extends ProjectLintTestCase
                 'bin/run.sh',
                 'src/Item/Item.php'
             ),
+        );
 
-            $data[] = array(
-                array(
-                    'vendor/composer/*.php',
-                ),
-                array(),
-                array(
-                    'vendor/composer/autoload_classmap.php',
-                    'vendor/composer/autoload_namespaces.php',
-                    'vendor/composer/autoload_psr4.php',
-                    'vendor/composer/autoload_real.php',
-                    'vendor/composer/ClassLoader.php',
-                    'vendor/composer/installed_paths.php',
-                ),
+        $data[] = array(
+            array(
+                'vendor/**.php',
             ),
-
-            $data[] = array(
-                array(
-                    'vendor/**.php',
-                ),
-                array(),
-                array(
-                    'vendor/autoload.php',
-                    'vendor/composer/autoload_classmap.php',
-                    'vendor/composer/autoload_namespaces.php',
-                    'vendor/composer/autoload_psr4.php',
-                    'vendor/composer/autoload_real.php',
-                    'vendor/composer/ClassLoader.php',
-                    'vendor/composer/installed_paths.php',
-                    'vendor/psr/log/Psr/Log/InvalidArgumentException.php',
-                    'vendor/psr/log/Psr/Log/LoggerInterface.php',
-                    'vendor/psr/log/Psr/Log/LogLevel.php',
-                    'vendor/psr/log/Psr/Log/NullLogger.php',
-                ),
+            array(),
+            array(
+                'vendor/autoload.php',
+                'vendor/composer/autoload_classmap.php',
+                'vendor/composer/autoload_namespaces.php',
+                'vendor/composer/autoload_psr4.php',
+                'vendor/composer/autoload_real.php',
+                'vendor/composer/ClassLoader.php',
+                'vendor/composer/installed_paths.php',
+                'vendor/psr/log/Psr/Log/InvalidArgumentException.php',
+                'vendor/psr/log/Psr/Log/LoggerInterface.php',
+                'vendor/psr/log/Psr/Log/LogLevel.php',
+                'vendor/psr/log/Psr/Log/NullLogger.php',
             ),
+        );
 
-            $data[] = array(
-                array(
-                    'vendor/**.php',
-                ),
-                array(
-                    'vendor/composer'
-                ),
-                array(
-                    'vendor/autoload.php',
-                    'vendor/psr/log/Psr/Log/InvalidArgumentException.php',
-                    'vendor/psr/log/Psr/Log/LoggerInterface.php',
-                    'vendor/psr/log/Psr/Log/LogLevel.php',
-                    'vendor/psr/log/Psr/Log/NullLogger.php',
-                ),
+        $data[] = array(
+            array(
+                'vendor/**.php',
+            ),
+            array(
+                'vendor/composer'
+            ),
+            array(
+                'vendor/autoload.php',
+                'vendor/psr/log/Psr/Log/InvalidArgumentException.php',
+                'vendor/psr/log/Psr/Log/LoggerInterface.php',
+                'vendor/psr/log/Psr/Log/LogLevel.php',
+                'vendor/psr/log/Psr/Log/NullLogger.php',
+            ),
+        );
+
+        $data[] = array(
+            array(
+                '/vendor\/.*\.php/',
+            ),
+            array(
+                'vendor/composer'
+            ),
+            array(
+                'vendor/autoload.php',
+                'vendor/psr/log/Psr/Log/InvalidArgumentException.php',
+                'vendor/psr/log/Psr/Log/LoggerInterface.php',
+                'vendor/psr/log/Psr/Log/LogLevel.php',
+                'vendor/psr/log/Psr/Log/NullLogger.php',
             ),
         );
 

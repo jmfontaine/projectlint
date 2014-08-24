@@ -1,6 +1,7 @@
 <?php
 namespace ProjectLint\Item;
 
+use Symfony\Component\Finder\Expression\Regex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -44,9 +45,22 @@ class ItemManager
             '\*\*' => '.*',
             '\*'   => '[^\/]*',
         );
-        $pattern = '/' . strtr($quotedPath, $replacements) . '/';
+        $pattern = '/^' . strtr($quotedPath, $replacements) . '/';
 
         return $pattern;
+    }
+
+    private function normalizePath($path)
+    {
+        try {
+            // Would trigger an exception if the path is not a regex
+            Regex::create($path);
+            $normalizedPath = $path;
+        } catch (\InvalidArgumentException $exception) {
+            $normalizedPath = $this->createRegexFromPath($path);
+        }
+
+        return $normalizedPath;
     }
 
     public function __construct($rootPath)
@@ -60,11 +74,11 @@ class ItemManager
         $finder->in($this->getRootPath());
 
         foreach ($include as $path) {
-            $finder->path($this->createRegexFromPath($path));
+            $finder->path($this->normalizePath($path));
         }
 
         foreach ($exclude as $path) {
-            $finder->notPath($this->createRegexFromPath($path));
+            $finder->notPath($this->normalizePath($path));
         }
 
         $items = array();
