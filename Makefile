@@ -61,8 +61,8 @@ sign: phar
 	@gpg --armor --detach-sig build/output/projectlint.phar
 
 test:
-	@vendor/bin/phpunit -c phpunix.xml.dist
+	@vendor/bin/phpunit
 
 test-cov:
 	@-rm -rf build/coverage
-	@vendor/bin/phpunit -c phpunix.xml.dist --coverage-html=build/coverage
+	@vendor/bin/phpunit --coverage-html=build/coverage
