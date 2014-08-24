@@ -10,13 +10,7 @@ ProjectLint helps you declare and enforce project layout rules, ensuring your pr
 Installation
 ------------
 
-You can install ProjectLint by using [Composer](https://getcomposer.org/). For example:
-
-```bash
-composer global require 'jmfontaine/projectlint:*'
-```
-
-This will install the `projectlint` executable to your `$COMPOSER_HOME/vendor/bin` folder (typically `$HOME/.composer/vendor/bin`).  It is recommended to add this directory to your `PATH` environment variable.
+See [documentation](doc/Installation.md) for installation instructions.
 
 Usage
 -----
