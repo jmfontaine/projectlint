@@ -36,6 +36,19 @@ class ItemManager
         return new Item($resource, $this->getRootPath());
     }
 
+    private function createRegexFromPath($path)
+    {
+        $quotedPath = preg_quote($path, '/');
+
+        $replacements = array(
+            '\*\*' => '.*',
+            '\*'   => '[^\/]*',
+        );
+        $pattern = '/' . strtr($quotedPath, $replacements) . '/';
+
+        return $pattern;
+    }
+
     public function __construct($rootPath)
     {
         $this->setRootPath($rootPath);
@@ -44,27 +57,15 @@ class ItemManager
     public function getItems(array $include, array $exclude)
     {
         $finder = new Finder();
-        $finder->files();
+        $finder->in($this->getRootPath());
 
-        $isolatedFiles = array();
-
-        if (empty($include)) {
-            $finder->in($this->getRootPath());
-        } else {
-            foreach ($include as $path) {
-                if (is_file($path)) {
-                    $isolatedFiles[] = new SplFileInfo($this->getRootPath() . '/' . $path, dirname($path), $path);
-                } else {
-                    $finder->in($this->getRootPath() . '/' . $path);
-                }
-            }
+        foreach ($include as $path) {
+            $finder->path($this->createRegexFromPath($path));
         }
 
         foreach ($exclude as $path) {
-            $finder->exclude($path);
+            $finder->notPath($this->createRegexFromPath($path));
         }
-
-        $finder->append($isolatedFiles);
 
         $items = array();
         foreach ($finder as $resource) {

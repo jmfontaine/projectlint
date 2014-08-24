@@ -138,6 +138,15 @@ class Item
             $this->getRootPath()
         );
 
+        // Strip leading "./" if present
+        if ('./' === substr($relativePath, 0, 2)) {
+            if ('./' === $relativePath) {
+                $relativePath = '';
+            } else {
+                $relativePath = substr($relativePath, 2);
+            }
+        }
+
         return $relativePath . $this->getResource()->getFilename();
     }
 }
