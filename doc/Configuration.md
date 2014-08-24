@@ -55,6 +55,7 @@ item.property
 Available properties are:
 
 * `absPath`: Item absolute path.
+* `absDir`: Item directory absolute path..
 * `atime`: Item last access time.
 * `contents`: Item contents.
 * `code`: If supported programming language. Null otherwise.
@@ -66,19 +67,20 @@ Available properties are:
     * `methods`: List of classes methods.
     * `methodsNumber`: Number of classes methods.
 * `depth`: Item depth relative to project root.
+* `dir`: Item directory relative to project root.
 * `extension`: Item extension.
-* `gid`: Item group id.
 * `group`: Item group name.
+* `groupId`: Item group id.
 * `lines`: Item number of lines, if text format. Null otherwise.
 * `mtime`: Item last contents modification time.
 * `name`: Item name.
+* `owner`: Item owner name.
+* `ownerId`: Item owner id.
 * `path`: Item path relative to the project root.
 * `perms`: Item permissions (e.g. 0644).
 * `size`: Item size in bytes.
 * `target`: Item target path, if item is link.
 * `type`: Type of the item. Available values are: `file`, ` dir` and `link`.
-* `uid`: Item user id.
-* `user`: Item user name.
 
 ### Methods ###
 
