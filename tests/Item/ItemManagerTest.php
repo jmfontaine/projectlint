@@ -41,6 +41,7 @@ class ItemManagerTest extends ProjectLintTestCase
     {
         $data = array();
 
+        // Simple paths
         $data[] = array(
             array(),
             array(),
@@ -136,6 +137,17 @@ class ItemManagerTest extends ProjectLintTestCase
             ),
         );
 
+        // Wildcards
+        $data[] = array(
+            array(
+                'vendor/*.php',
+            ),
+            array(),
+            array(
+                'vendor/autoload.php',
+            ),
+        );
+
         $data[] = array(
             array(
                 'vendor/**.php',
@@ -152,6 +164,19 @@ class ItemManagerTest extends ProjectLintTestCase
             ),
         );
 
+        $data[] = array(
+            array(
+                'vendor/**.json',
+            ),
+            array(
+                'vendor/**composer.json'
+            ),
+            array(
+                'vendor/composer/installed.json',
+            ),
+        );
+
+        // Regular Expressions
         $data[] = array(
             array(
                 '/vendor\/.*\.php/',
