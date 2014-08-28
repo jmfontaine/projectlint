@@ -13,8 +13,10 @@ cache:
 
 before_script:
   - composer install
+  - wget https://github.com/cbednarski/pharcc/releases/download/v0.2.3/pharcc.phar
 
 script:
   - make check
   - make test
-  - bin/projectlint
+  - make phar
+  - php projectlint.phar
