@@ -4,9 +4,9 @@
 PHARCC_GLOBAL = $(shell pharcc --version > /dev/null 2>&1 && echo 1 || echo 0)
 PHARCC_LOCAL = $(shell php pharcc.phar --version > /dev/null 2>&1 && echo 1 || echo 0)
 ifeq ($(PHARCC_LOCAL), 1)
-	PHARCC_COMMAND = "php pharcc.phar"
+	PHARCC_COMMAND = "php pharcc.phar build"
 else ifeq ($(PHARCC_GLOBAL), 1)
-	PHARCC_COMMAND = "pharcc"
+	PHARCC_COMMAND = "pharcc build"
 else
 	PHARCC_COMMAND = ""
 endif
@@ -51,7 +51,7 @@ phar:
 		exit 1; \
 	fi
 
-	@$(PHARCC_COMMAND) "build"
+	@"$(PHARCC_COMMAND)"
 	@-rm -rf build/output
 	@mkdir build/output
 	@mv projectlint.phar build/output
