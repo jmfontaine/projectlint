@@ -19,4 +19,4 @@ script:
   - make check
   - make test
   - make phar
-  - php projectlint.phar
+  - php build/output/projectlint.phar

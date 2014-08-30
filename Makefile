@@ -53,7 +53,7 @@ phar:
 
 	@"$(PHARCC_COMMAND)"
 	@-rm -rf build/output
-	@mkdir build/output
+	@mkdir -p build/output
 	@mv projectlint.phar build/output
 
 sign: phar
