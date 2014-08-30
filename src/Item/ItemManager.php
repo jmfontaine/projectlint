@@ -1,6 +1,7 @@
 <?php
 namespace ProjectLint\Item;
 
+use Symfony\Component\Finder\Expression\Regex;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -36,6 +37,32 @@ class ItemManager
         return new Item($resource, $this->getRootPath());
     }
 
+    private function createRegexFromPath($path)
+    {
+        $quotedPath = preg_quote($path, '/');
+
+        $replacements = array(
+            '\*\*' => '.*',
+            '\*'   => '[^\/]*',
+        );
+        $pattern = '/^' . strtr($quotedPath, $replacements) . '/';
+
+        return $pattern;
+    }
+
+    private function normalizePath($path)
+    {
+        try {
+            // Would trigger an exception if the path is not a regex
+            Regex::create($path);
+            $normalizedPath = $path;
+        } catch (\InvalidArgumentException $exception) {
+            $normalizedPath = $this->createRegexFromPath($path);
+        }
+
+        return $normalizedPath;
+    }
+
     public function __construct($rootPath)
     {
         $this->setRootPath($rootPath);
@@ -44,27 +71,15 @@ class ItemManager
     public function getItems(array $include, array $exclude)
     {
         $finder = new Finder();
-        $finder->files();
+        $finder->in($this->getRootPath());
 
-        $isolatedFiles = array();
-
-        if (empty($include)) {
-            $finder->in($this->getRootPath());
-        } else {
-            foreach ($include as $path) {
-                if (is_file($path)) {
-                    $isolatedFiles[] = new SplFileInfo($this->getRootPath() . '/' . $path, dirname($path), $path);
-                } else {
-                    $finder->in($this->getRootPath() . '/' . $path);
-                }
-            }
+        foreach ($include as $path) {
+            $finder->path($this->normalizePath($path));
         }
 
         foreach ($exclude as $path) {
-            $finder->exclude($path);
+            $finder->notPath($this->normalizePath($path));
         }
-
-        $finder->append($isolatedFiles);
 
         $items = array();
         foreach ($finder as $resource) {

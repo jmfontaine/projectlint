@@ -2,14 +2,14 @@ ruleset:
     name: Project Lint
     rules:
         "Executables only in 'bin' folder":
-            expression: (item.type == 'file' or item.type == 'link') and item.extension == ''
+            expression: item.type == 'file' and item.extension == ''
             include:
-                - bin
+                - bin/**
         "PHP files only in 'src' folder":
-            expression: item.type == 'file' and item.extension == 'php'
+            expression: item.type == 'dir' or (item.type == 'file' and item.extension == 'php')
             include:
-                - src
+                - src/**
         "PHP files only in 'tests' folder":
-            expression: item.type == 'file' and item.extension == 'php'
+            expression: item.type == 'dir' or (item.type == 'file' and item.extension == 'php')
             include:
-                - tests
+                - tests/**
