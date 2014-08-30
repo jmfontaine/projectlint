@@ -12,6 +12,9 @@ cache:
     - vendor
 
 before_script:
+  # Make sure PHP conf.d directory exists because it's missing on HHVM boxes
+  - "[ -d ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d ] || mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d"
+  - phpenv config-add build/ci/projectlint.ini
   - composer install
   - wget https://github.com/cbednarski/pharcc/releases/download/v0.2.3/pharcc.phar
 
