@@ -96,8 +96,14 @@ class Item
     public function __get($propertyName)
     {
         switch ($propertyName) {
+            case 'absPath':
+                $propertyValue = $this->getResource()->getPathname();
+                break;
             case 'atime':
                 $propertyValue = $this->getResource()->getATime();
+                break;
+            case 'contents':
+                $propertyValue = $this->getResource()->getContents();
                 break;
             case 'ctime':
                 $propertyValue = $this->getResource()->getCTime();
@@ -106,12 +112,20 @@ class Item
                 $propertyValue = $this->getResource()->getExtension();
                 break;
             case 'group':
+                $groupData = posix_getgrgid($this->getResource()->getGroup());
+                $propertyValue = $groupData['name'];
+                break;
+            case 'groupId':
                 $propertyValue = $this->getResource()->getGroup();
                 break;
             case 'mtime':
                 $propertyValue = $this->getResource()->getMTime();
                 break;
             case 'owner':
+                $ownerData = posix_getpwuid($this->getResource()->getOwner());
+                $propertyValue = $ownerData['name'];
+                break;
+            case 'ownerId':
                 $propertyValue = $this->getResource()->getOwner();
                 break;
             case 'perms':
@@ -123,7 +137,6 @@ class Item
             case 'type':
                 $propertyValue = $this->getResource()->getType();
                 break;
-
             default:
                 throw new \InvalidArgumentException('Unknown property: ' . $propertyName);
         }
