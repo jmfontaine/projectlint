@@ -16,6 +16,30 @@ class RuleTest extends ProjectLintTestCase
 
         $data = array();
 
+        // Absolute Path
+        $data[] = array(
+            'bin/check.sh',
+            'item.absPath == "vfs://root/bin/check.sh"',
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            'item.absPath == "vfs://root/foo/check.sh"',
+            false,
+        );
+
+        // Absolute Directory Path
+        $data[] = array(
+            'bin/check.sh',
+            'item.absDir == "vfs://root/bin"',
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            'item.absDir == "vfs://root/foo"',
+            false,
+        );
+
         // Atime
         $data[] = array(
             'bin/check.sh',
@@ -40,6 +64,23 @@ class RuleTest extends ProjectLintTestCase
             false,
         );
 
+        // Depth
+        $data[] = array(
+            'bin/check.sh',
+            'item.depth == 1',
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            'item.depth == 2',
+            false,
+        );
+        $data[] = array(
+            'vendor/psr/log/PSR/Log/InvalidArgumentException.php',
+            'item.depth == 5',
+            true,
+        );
+
         // Extension
         $data[] = array(
             'bin/check.sh',
@@ -52,16 +93,16 @@ class RuleTest extends ProjectLintTestCase
             false,
         );
 
-        // Group
+        // Group ID
         // KLUDGE: vfsStream doesn't allow using string as owner so we must rely on some magical constants
         $data[] = array(
             'bin/run.sh',
-            sprintf('item.group == %d', vfsStream::GROUP_USER_1),
+            sprintf('item.groupId == %d', vfsStream::GROUP_USER_1),
             true,
         );
         $data[] = array(
             'bin/run.sh',
-            sprintf('item.group == %d', vfsStream::GROUP_USER_2),
+            sprintf('item.groupId == %d', vfsStream::GROUP_USER_2),
             false,
         );
 
@@ -77,21 +118,45 @@ class RuleTest extends ProjectLintTestCase
             false,
         );
 
-        // Owner
+        // Owner ID
         // KLUDGE: vfsStream doesn't allow using string as owner so we must rely on some magical constants
         $data[] = array(
             'bin/run.sh',
-            sprintf('item.owner == %d', vfsStream::OWNER_USER_1),
+            sprintf('item.ownerId == %d', vfsStream::OWNER_USER_1),
             true,
         );
         $data[] = array(
             'bin/run.sh',
-            sprintf('item.owner == %d', vfsStream::OWNER_USER_2),
+            sprintf('item.ownerId == %d', vfsStream::OWNER_USER_2),
+            false,
+        );
+
+        // Name
+        $data[] = array(
+            'bin/check.sh',
+            'item.name == "check.sh"',
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            'item.name == "foo.sh"',
+            false,
+        );
+
+        // Path
+        $data[] = array(
+            'bin/check.sh',
+            'item.path == "bin/check.sh"',
+            true,
+        );
+        $data[] = array(
+            'bin/check.sh',
+            'item.path == "foo/check.sh"',
             false,
         );
 
         // Perms
-        // KLUDGE: For know ProjectLint only supports integer permissions (Vs. octal representation)
+        // KLUDGE: For now ProjectLint only supports integer permissions (Vs. octal representation)
         $data[] = array(
             'bin/check.sh',
             'item.perms == 33261',
