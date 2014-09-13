@@ -3,7 +3,7 @@ namespace ProjectLint\Rule;
 
 use ProjectLint\Item\Item;
 use ProjectLint\Report\Report;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use ProjectLint\ExpressionLanguage\ExpressionLanguage;
 
 class Rule
 {
