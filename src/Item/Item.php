@@ -1,6 +1,8 @@
 <?php
 namespace ProjectLint\Item;
 
+use Hal\Component\Token\Tokenizer;
+use Hal\Metrics\Complexity\Text\Length\Loc;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -125,6 +127,17 @@ class Item
                 break;
             case 'groupId':
                 $propertyValue = $this->getResource()->getGroup();
+                break;
+            case 'loc':
+                $resource = $this->getResource();
+                if ('php' == $resource->getExtension()) {
+                    $tokenizer     = new Tokenizer();
+                    $locAnalyzer   = new Loc($tokenizer);
+                    $info          = $locAnalyzer->calculate($resource->getPathname());
+                    $propertyValue = $info->getLoc();
+                } else {
+                    $propertyValue = null;
+                }
                 break;
             case 'mtime':
                 $propertyValue = $this->getResource()->getMTime();
