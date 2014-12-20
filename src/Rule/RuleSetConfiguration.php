@@ -13,8 +13,12 @@ class RuleSetConfiguration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('name')->cannotBeEmpty()->defaultValue('Unnamed ruleset')->end()
-                ->scalarNode('author')->cannotBeEmpty()->end()
+                ->arrayNode('info')
+                    ->children()
+                        ->scalarNode('name')->cannotBeEmpty()->defaultValue('Unnamed ruleset')->end()
+                        ->scalarNode('author')->cannotBeEmpty()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('rules')
                     ->prototype('array')
                         ->beforeNormalization()
