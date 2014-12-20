@@ -1,15 +1,14 @@
-ruleset:
-    name: Project Lint
-    rules:
-        "Executables only in 'bin' folder":
-            expression: item.type == 'file' and item.extension == ''
-            include:
-                - bin/**
-        "PHP files only in 'src' folder":
-            expression: item.type == 'dir' or (item.type == 'file' and item.extension == 'php')
-            include:
-                - src/**
-        "PHP files only in 'tests' folder":
-            expression: item.type == 'dir' or (item.type == 'file' and item.extension == 'php')
-            include:
-                - tests/**
+name: Project Lint
+rules:
+    "Executables only in 'bin' folder":
+        expression: item.type == 'file' and item.extension == ''
+        include:
+            - bin/**
+    "PHP files only in 'src' folder":
+        expression: item.type == 'dir' or (item.type == 'file' and item.extension == 'php')
+        include:
+            - src/**
+    "PHP files only in 'tests' folder":
+        expression: item.type == 'dir' or (item.type == 'file' and item.extension == 'php')
+        include:
+            - tests/**
