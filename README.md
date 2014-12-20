@@ -27,7 +27,7 @@ Usage
 Requirements / Compatibility
 ----------------------------
 
-ProjectLint is compatible with versions 5.3, 5.4, 5.5, 5.6 of PHP and the latest version of [HHVM](http://hhvm.com/).
+ProjectLint is compatible with versions 5.4, 5.5, 5.6 of PHP and the latest version of [HHVM](http://hhvm.com/).
 
 Contributing
 ------------
