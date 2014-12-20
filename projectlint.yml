@@ -1,4 +1,6 @@
-name: Project Lint
+info:
+    name: Project Lint
+    author: Jean-Marc Fontaine <jm@jmfontaine.net>
 rules:
     "Executables only in 'bin' folder":
         expression: item.type == 'file' and item.extension == ''
