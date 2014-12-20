@@ -5,27 +5,26 @@ Configuration File Structure
 ----------------------------
 
 ~~~yaml
-ruleset:
-    import:
-        - symfony-pl.yml
-    rules:
-        "Rule name":
-            expression: item.extension == "text"
-            include:
-                - /path
-                - /another/path
-            exclude:
-                - /path/subdir
-            level: warning
-            message: Custom message
-            types: [ file, dir, link ]
-            enabled: true
+info:
+    name: FooBar Rules
+    author: John Doe <john@doe.com>
+rules:
+    "Rule name":
+        expression: item.extension == "text"
+        include:
+            - /path
+            - /another/path
+        exclude:
+            - /path/subdir
+        level: warning
+        message: Custom message
+        types: [ file, dir, link ]
+        enabled: true
 ~~~
 
-### Import Section ###
+### Info Section ###
 
-
-ProjectLint can import configuration files. Any rule will override a previously defined rule so import order is important. Rules from the main configuration file will be interpreted last so they will always override rules from imported files.
+The `info` section contains information about the ruleset.
 
 ### Rules Section ###
 
@@ -48,7 +47,7 @@ ProjectLint expression exposes an object named `item` which represents the item 
 
 Properties on items can be accessed by using the `.` syntax, similar to JavaScript:
 
-~~~
+~~~yaml
 item.property
 ~~~
 
@@ -86,7 +85,7 @@ Available properties are:
 
 Methods on items can be accessed by using the `.` syntax, similar to JavaScript:
 
-~~~
+~~~yaml
 item.method(argument)
 ~~~
 
@@ -173,4 +172,4 @@ Expression syntax supports the following operators.
 * `foo ?: "no"`: Equal to foo ? foo : "no"
 * `foo ? "yes"`: Equal to foo ? "yes" : ""
 
-**Note:** ProjectLint uses the great [Expression Language](http://symfony.com/doc/current/components/expression_language/syntax.html) Symfony Component so any supported syntax should be usable in ProjectLint expressions.
+**Note:** *ProjectLint uses the great [Expression Language](http://symfony.com/doc/current/components/expression_language/syntax.html) Symfony Component so any supported syntax should be usable in ProjectLint expressions. If not, please let us know using the [Github Issue Tracker](https://github.com/jmfontaine/projectlint/issues).*
