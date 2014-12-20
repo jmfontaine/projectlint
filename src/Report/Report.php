@@ -9,7 +9,7 @@ class Report
     /**
      * @var array
      */
-    private $violations = array();
+    private $violations = [];
 
     public function addViolation(Rule $rule, Item $item)
     {

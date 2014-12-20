@@ -10,7 +10,7 @@ class Rule
     /**
      * @var array
      */
-    private $exclude = array();
+    private $exclude = [];
 
     /**
      * @var string
@@ -20,7 +20,7 @@ class Rule
     /**
      * @var array
      */
-    private $include = array();
+    private $include = [];
 
     /**
      * @var ExpressionLanguage
@@ -100,7 +100,7 @@ class Rule
         return $this;
     }
 
-    public function __construct($name, $expression, array $include = array(), array $exclude = array())
+    public function __construct($name, $expression, array $include = [], array $exclude = [])
     {
         $this->setName($name)
              ->setExpression($expression)
@@ -145,7 +145,7 @@ class Rule
     {
         $result = $this->getLanguage()->evaluate(
             $this->getExpression(),
-            array('item' => $item)
+            ['item' => $item]
         );
 
         if (false === $result) {

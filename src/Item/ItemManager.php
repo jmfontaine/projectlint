@@ -41,10 +41,10 @@ class ItemManager
     {
         $quotedPath = preg_quote($path, '/');
 
-        $replacements = array(
+        $replacements = [
             '\*\*' => '.*',
             '\*'   => '[^\/]*',
-        );
+        ];
         $pattern = '/^' . strtr($quotedPath, $replacements) . '/';
 
         return $pattern;
@@ -81,7 +81,7 @@ class ItemManager
             $finder->notPath($this->normalizePath($path));
         }
 
-        $items = array();
+        $items = [];
         foreach ($finder as $resource) {
             $items[] = $this->loadItem($resource);
         }
