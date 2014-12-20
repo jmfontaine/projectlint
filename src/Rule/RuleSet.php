@@ -8,6 +8,11 @@ use Symfony\Component\Config\FileLocator;
 class RuleSet
 {
     /**
+     * @var string
+     */
+    private $author;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -60,6 +65,18 @@ class RuleSet
     }
 
     /**
+     * @param string $author
+     *
+     * @return $this
+     */
+    private function setAuthor($author)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
      * @param string $name
      *
      * @return $this
@@ -80,7 +97,8 @@ class RuleSet
         $debugData = ob_get_clean();
         $this->getLogger()->debug('Raw rule set content: ' . $debugData);
 
-        $this->setName($data['name'])
+        $this->setAuthor($data['info']['author'])
+             ->setName($data['info']['name'])
              ->loadRulesFromArray($data['rules']);
     }
 
@@ -128,6 +146,14 @@ class RuleSet
         $this->getLogger()->info('Loaded rule set: ' . $this->getName());
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 
     /**
