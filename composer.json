@@ -16,7 +16,6 @@
     "require": {
         "php": ">=5.4.0",
         "halleck45/php-metrics": "~1.1.1",
-        "hoa/ruler": "1.14.12.10",
         "psr/log": "~1.0.0",
         "symfony/config": "~2.6.0",
         "symfony/console": "~2.6.0",

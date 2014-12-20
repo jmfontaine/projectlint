@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "18e99fffa24339f45803f35cdab7d3b6",
+    "hash": "f7735fd99bb8281f86eeae0b4292fcf2",
     "packages": [
         {
             "name": "halleck45/php-metrics",
