@@ -11,7 +11,7 @@ else
 	PHARCC_COMMAND = ""
 endif
 
-all: clean check test phar
+build: clean check test phar
 
 check:
 	@vendor/bin/phpcs --standard=psr2  bin/projectlint src/ tests/
@@ -27,11 +27,12 @@ help:
 	@echo ""
 	@echo "Please use 'make <target>' where <target> is one of:"
 	@echo ""
-	@echo "  all       Shortcut for 'clean', 'check', 'test' and 'phar' targets in this order"
+	@echo "  build     Shortcut for 'clean', 'check', 'test' and 'phar' targets in this order"
 	@echo "  check     Checks compliance with Coding Standard"
 	@echo "  clean     Deletes all development and build artifacts"
 	@echo "  init      Initializes project"
 	@echo "  phar      Generates a phar file for ProjectLint"
+	@echo "  sign      Generates a signed phar file for ProjectLint"
 	@echo "  test      Runs unit tests"
 	@echo "  test-cov  Runs unit tests with code coverage enabled"
 	@echo "  help      Display this message"
