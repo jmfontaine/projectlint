@@ -1,14 +1,14 @@
 .DEFAULT: help
 
-# Find pharcc installation path
-PHARCC_GLOBAL = $(shell pharcc --version > /dev/null 2>&1 && echo 1 || echo 0)
-PHARCC_LOCAL = $(shell php pharcc.phar --version > /dev/null 2>&1 && echo 1 || echo 0)
-ifeq ($(PHARCC_LOCAL), 1)
-	PHARCC_COMMAND = "php pharcc.phar build"
-else ifeq ($(PHARCC_GLOBAL), 1)
-	PHARCC_COMMAND = "pharcc build"
+# Find Box installation path
+BOX_GLOBAL = $(shell box --version > /dev/null 2>&1 && echo 1 || echo 0)
+BOX_LOCAL = $(shell php box.phar --version > /dev/null 2>&1 && echo 1 || echo 0)
+ifeq ($(BOX_LOCAL), 1)
+	BOX_COMMAND = "php box.phar build"
+else ifeq ($(BOX_GLOBAL), 1)
+	BOX_COMMAND = "box build"
 else
-	PHARCC_COMMAND = ""
+	BOX_COMMAND = ""
 endif
 
 build: clean check test phar
@@ -42,17 +42,17 @@ init:
 	@composer install
 
 phar:
-	@if [ $(PHARCC_GLOBAL) -eq 1 ]; then \
-		echo "Found phparcc command installed on this system. Will use it to build projectlint.phar."; \
-	elif [ $(PHARCC_LOCAL) -eq 1 ]; then \
-		echo "Found phparcc.phar in project directory. Will use it to build projectlint.phar."; \
+	@if [ $(BOX_GLOBAL) -eq 1 ]; then \
+		echo "Found Box command installed on this system. Will use it to build projectlint.phar."; \
+	elif [ $(BOX_LOCAL) -eq 1 ]; then \
+		echo "Found box.phar in project directory. Will use it to build projectlint.phar."; \
 	else \
-		echo >&2 "Building Phar file requires pharcc but it's not installed."; \
+		echo >&2 "Building PHAR file requires Box but it's not installed."; \
 		echo >&2 "Aborting."; \
 		exit 1; \
 	fi
 
-	@"$(PHARCC_COMMAND)"
+	@"$(BOX_COMMAND)"
 	@-rm -rf build/output
 	@mkdir -p build/output
 	@mv projectlint.phar build/output

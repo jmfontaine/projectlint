@@ -14,8 +14,8 @@ install:
   # Add custom php.ini file if not HHVM
   - 'if [[ $TRAVIS_PHP_VERSION != "hhvm" ]]; then phpenv config-add build/ci/php.ini; fi'
   - composer install
-  # Don't download pharcc if HHVM because we won't build PHAR file
-  - 'if [[ $TRAVIS_PHP_VERSION != "hhvm" ]]; then wget https://github.com/cbednarski/pharcc/releases/download/v0.2.3/pharcc.phar; fi'
+  # Don't download Box if HHVM because we won't build PHAR file
+  - 'if [[ $TRAVIS_PHP_VERSION != "hhvm" ]]; then wget https://github.com/box-project/box2/releases/download/2.5.0/box-2.5.0.phar; mv box-2.5.0.phar box.phar; fi'
 
 script:
   - make check

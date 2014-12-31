@@ -1,0 +1,28 @@
+{
+    "directories": ["src"],
+    "files": [
+        "LICENSE"
+    ],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": [
+                "mikey179",
+                "ocramius",
+                "phpunit",
+                "sebastian",
+                "squizlabs",
+                "test",
+                "tests",
+                "Tests"
+            ],
+            "in": "vendor"
+        }
+    ],
+    "main": "bin/projectlint",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "output": "projectlint.phar",
+    "stub": true
+}
