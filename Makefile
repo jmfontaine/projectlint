@@ -20,6 +20,8 @@ clean:
 	@-rm -rf build/coverage
 	@-rm -f projectlint.phar
 
+dist: build sign
+
 help:
 	@echo ""
 	@echo "ProjectLint Helper"
