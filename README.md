@@ -3,7 +3,7 @@ ProjectLint - Enforce project layout rules
 
 ProjectLint helps you declare and enforce project layout rules, ensuring your project stays consistent at all times.
 
-[![Build Status](https://api.travis-ci.org/jmfontaine/projectlint.svg?branch=master)](https://travis-ci.org/jmfontaine/projectlint)
+[![Build Status](https://api.travis-ci.org/projectlint/projectlint.svg?branch=master)](https://travis-ci.org/projectlint/projectlint)
 
 **This project is still in beta, there may be bugs and missing features.**
 
@@ -40,7 +40,7 @@ The documentation for ProjectLint is available in the [`doc`](doc/Index.md) dire
 Issues
 ------
 
-Bug reports and feature requests can be submitted on the [Github Issue Tracker](https://github.com/jmfontaine/projectlint/issues).
+Bug reports and feature requests can be submitted on the [Github Issue Tracker](https://github.com/projectlint/projectlint/issues).
 
 Contributing
 ------------
@@ -56,7 +56,7 @@ Jean-Marc Fontaine
 * Twitter: [@jmfontaine](http://twitter.com/jmfontaine)
 * Blog: [jmfontaine.net](http://jmfontaine.net/)
 
-See also the list of [contributors](https://github.com/jmfontaine/projectlint/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/projectlint/projectlint/contributors) who participated in this project.
 
 License
 -------
